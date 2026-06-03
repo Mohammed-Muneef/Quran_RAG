@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran RAG Assistant — Cited Retrieval & Semantic Search</title>
+    <meta name="description" content="Explore the Quran with bilingual semantic search and cited RAG answers grounded in Arabic, English, and Ibn Kathir Tafsir.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar: Control Panel & Settings -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon">📖</div>
+                <h2>Search Filters</h2>
+            </div>
+            
+            <div class="control-group">
+                <label for="surah-select">Scope by Surah</label>
+                <select id="surah-select">
+                    <option value="">Search entire Quran...</option>
+                    <!-- Options populated dynamically -->
+                </select>
+            </div>
+
+            <div class="control-group toggle-group">
+                <label class="switch">
+                    <input type="checkbox" id="live-rag-toggle" checked>
+                    <span class="slider round"></span>
+                </label>
+                <div class="toggle-label">
+                    <span>Live LLM mode</span>
+                    <small>Uses active API Key</small>
+                </div>
+            </div>
+
+            <div class="sidebar-divider"></div>
+
+            <div class="about-section">
+                <h3>Production Stack</h3>
+                <p><strong>Orchestration:</strong> Custom RAG Pipeline</p>
+                <p><strong>Retrieval:</strong> BM25 + ChromaDB (RRF)</p>
+                <p><strong>Re-ranker:</strong> Cohere / Cross-Encoder</p>
+                <p class="mode-badge" id="env-badge">Mode: Checking...</p>
+            </div>
+        </aside>
+
+        <!-- Main Chat / Search Area -->
+        <main class="main-content">
+            <header class="app-header">
+                <h1>Quranic RAG Assistant</h1>
+                <p>Cited semantic retrieval grounded in Arabic text, English translation, and cross-encoder re-ranking.</p>
+            </header>
+
+            <div class="chat-wrapper">
+                <div class="chat-log" id="chat-log">
+                    <!-- Initial Welcome Message -->
+                    <div class="message system-message">
+                        <div class="bubble">
+                            <p>Salam! Welcome to the Quran RAG Assistant. Ask any question about topics, verses, or rules in the Quran. You can filter results by specific Surahs using the panel on the left.</p>
+                            <p class="suggestions-title">Try asking about:</p>
+                            <div class="suggestion-chips">
+                                <button onclick="setQuery('Is charging interest on loans haram?')">Prohibition of Interest (Riba)</button>
+                                <button onclick="setQuery('Seek help through patience and prayer.')">Patience & Prayer</button>
+                                <button onclick="setQuery('What are the rules of marriage and divorce?')">Marriage & Divorce Rules</button>
+                                <button onclick="setQuery('Is drinking alcohol haram?')">Drinking Alcohol</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input box -->
+                <div class="input-container">
+                    <form id="query-form" class="input-form">
+                        <input type="text" id="query-input" placeholder="Ask a question (e.g. Is charging interest haram?)..." required autocomplete="off">
+                        <button type="submit" id="submit-btn" class="send-btn">
+                            <span>Ask RAG</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <!-- Slide-out inspector panel: retrieved verses explorer -->
+        <section class="inspector-panel" id="inspector-panel">
+            <div class="inspector-header">
+                <h3>Citation & Context Inspector</h3>
+                <button class="close-btn" onclick="toggleInspector(false)">&times;</button>
+            </div>
+            <div class="inspector-body" id="inspector-body">
+                <p class="empty-state">Select a RAG response to inspect the exact retrieved verses, translations, and commentaries.</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- App JS -->
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+requests
+tqdm
+chromadb
+sentence-transformers
+google-genai
+fastapi
+uvicorn
+python-dotenv
+langchain
+langchain-community
+rank-bm25
+cohere
+ragas
+pyyaml
+openai

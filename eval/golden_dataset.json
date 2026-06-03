@@ -1,0 +1,482 @@
+[
+  {
+    "id": "fin_001",
+    "question": "Is charging interest on loans haram?",
+    "expected_verses": ["2:275", "2:276", "2:278"],
+    "expected_keywords": ["riba", "interest", "prohibited", "war"],
+    "topic": "finance",
+    "difficulty": "common"
+  },
+  {
+    "id": "fin_002",
+    "question": "Do I have to pay zakat on my wealth?",
+    "expected_verses": ["2:43", "2:177", "2:267"],
+    "expected_keywords": ["zakat", "charity", "alms", "poor"],
+    "topic": "finance",
+    "difficulty": "common"
+  },
+  {
+    "id": "fin_003",
+    "question": "What are the rules of trade and buying things?",
+    "expected_verses": ["2:275", "4:29"],
+    "expected_keywords": ["trade", "permitted", "commerce", "mutual consent"],
+    "topic": "finance",
+    "difficulty": "common"
+  },
+  {
+    "id": "fin_004",
+    "question": "Is borrowing money allowed in Islam?",
+    "expected_verses": ["2:282"],
+    "expected_keywords": ["borrow", "debt", "writing", "contract", "loan"],
+    "topic": "finance",
+    "difficulty": "medium"
+  },
+  {
+    "id": "fin_005",
+    "question": "What happens if someone cheats in business measurements?",
+    "expected_verses": ["83:1", "83:2", "83:3"],
+    "expected_keywords": ["measure", "defraud", "cheating", "scales"],
+    "topic": "finance",
+    "difficulty": "medium"
+  },
+  {
+    "id": "fin_006",
+    "question": "Does giving charity decrease my wealth?",
+    "expected_verses": ["2:261", "2:276"],
+    "expected_keywords": ["increase", "multiply", "charity", "zakat", "decrease"],
+    "topic": "finance",
+    "difficulty": "common"
+  },
+  {
+    "id": "fin_007",
+    "question": "Is bribery allowed to get a job or contract?",
+    "expected_verses": ["2:188"],
+    "expected_keywords": ["bribery", "property", "justice", "unjustly"],
+    "topic": "finance",
+    "difficulty": "medium"
+  },
+  {
+    "id": "fin_008",
+    "question": "Are we required to write down loan agreements?",
+    "expected_verses": ["2:282"],
+    "expected_keywords": ["write", "loan", "witnesses", "scribe"],
+    "topic": "finance",
+    "difficulty": "common"
+  },
+  {
+    "id": "fin_009",
+    "question": "What does the Quran say about hoarding gold and silver?",
+    "expected_verses": ["9:34"],
+    "expected_keywords": ["hoard", "gold", "silver", "punishment"],
+    "topic": "finance",
+    "difficulty": "hard"
+  },
+  {
+    "id": "fin_010",
+    "question": "How should we treat orphans' property?",
+    "expected_verses": ["4:2", "4:6", "17:34"],
+    "expected_keywords": ["orphan", "property", "guardian", "justice"],
+    "topic": "finance",
+    "difficulty": "hard"
+  },
+  {
+    "id": "wor_001",
+    "question": "How many times a day do we pray?",
+    "expected_verses": ["2:238", "11:114", "17:78"],
+    "expected_keywords": ["salah", "times", "prayer", "establish"],
+    "topic": "worship",
+    "difficulty": "common"
+  },
+  {
+    "id": "wor_002",
+    "question": "Who is exempt from fasting in Ramadan?",
+    "expected_verses": ["2:184", "2:185"],
+    "expected_keywords": ["fasting", "exempt", "ill", "travel", "journey"],
+    "topic": "worship",
+    "difficulty": "common"
+  },
+  {
+    "id": "wor_003",
+    "question": "What are the requirements for Hajj?",
+    "expected_verses": ["2:196", "2:197", "3:97"],
+    "expected_keywords": ["hajj", "pilgrimage", "kaaba", "ability"],
+    "topic": "worship",
+    "difficulty": "common"
+  },
+  {
+    "id": "wor_004",
+    "question": "Why should we recite the Quran?",
+    "expected_verses": ["17:82", "73:4"],
+    "expected_keywords": ["recitation", "healing", "mercy", "measured"],
+    "topic": "worship",
+    "difficulty": "medium"
+  },
+  {
+    "id": "wor_005",
+    "question": "Is it okay to pray if I am travelling?",
+    "expected_verses": ["4:101"],
+    "expected_keywords": ["travel", "shorten", "prayer", "salah"],
+    "topic": "worship",
+    "difficulty": "medium"
+  },
+  {
+    "id": "wor_006",
+    "question": "What is the importance of prayer (salah)?",
+    "expected_verses": ["2:45", "29:45"],
+    "expected_keywords": ["salah", "prayer", "remembrance", "prohibits"],
+    "topic": "worship",
+    "difficulty": "common"
+  },
+  {
+    "id": "wor_007",
+    "question": "When does Ramadan fasting start and end?",
+    "expected_verses": ["2:185", "2:187"],
+    "expected_keywords": ["white thread", "dawn", "night", "fasting", "ramadan"],
+    "topic": "worship",
+    "difficulty": "common"
+  },
+  {
+    "id": "wor_008",
+    "question": "Do we have to wash ourselves before praying?",
+    "expected_verses": ["5:6"],
+    "expected_keywords": ["wash", "wudu", "cleanse", "water", "purify"],
+    "topic": "worship",
+    "difficulty": "common"
+  },
+  {
+    "id": "wor_009",
+    "question": "What is the night of Qadr?",
+    "expected_verses": ["97:1", "97:2", "97:3", "97:4", "97:5"],
+    "expected_keywords": ["qadr", "decree", "thousand months", "angels"],
+    "topic": "worship",
+    "difficulty": "medium"
+  },
+  {
+    "id": "wor_010",
+    "question": "What direction should we face when we pray?",
+    "expected_verses": ["2:144"],
+    "expected_keywords": ["direction", "qibla", "face", "sacred mosque", "masjid"],
+    "topic": "worship",
+    "difficulty": "hard"
+  },
+  {
+    "id": "fam_001",
+    "question": "What are the rules of divorce?",
+    "expected_verses": ["2:228", "2:229", "65:1", "65:2"],
+    "expected_keywords": ["divorce", "talaq", "iddah", "waiting period"],
+    "topic": "family",
+    "difficulty": "common"
+  },
+  {
+    "id": "fam_002",
+    "question": "How should I treat my parents?",
+    "expected_verses": ["17:23", "17:24", "31:14"],
+    "expected_keywords": ["parents", "treat", "kindness", "uff", "worship"],
+    "topic": "family",
+    "difficulty": "common"
+  },
+  {
+    "id": "fam_003",
+    "question": "Can a man marry more than one wife?",
+    "expected_verses": ["4:3"],
+    "expected_keywords": ["marry", "two", "three", "four", "justice", "equal"],
+    "topic": "family",
+    "difficulty": "common"
+  },
+  {
+    "id": "fam_004",
+    "question": "What is the waiting period (iddah) after a divorce?",
+    "expected_verses": ["2:228", "65:4"],
+    "expected_keywords": ["waiting period", "iddah", "three periods", "months"],
+    "topic": "family",
+    "difficulty": "medium"
+  },
+  {
+    "id": "fam_005",
+    "question": "Are women entitled to inherit property?",
+    "expected_verses": ["4:7", "4:11"],
+    "expected_keywords": ["inherit", "inheritance", "female", "share", "portion"],
+    "topic": "family",
+    "difficulty": "medium"
+  },
+  {
+    "id": "fam_006",
+    "question": "What does the Quran say about raising children?",
+    "expected_verses": ["17:31", "31:13"],
+    "expected_keywords": ["children", "kill", "raise", "luqman", "advice"],
+    "topic": "family",
+    "difficulty": "common"
+  },
+  {
+    "id": "fam_007",
+    "question": "What is the dowry (mahr) in marriage?",
+    "expected_verses": ["4:4", "4:24"],
+    "expected_keywords": ["dowry", "mahr", "gift", "marriage"],
+    "topic": "family",
+    "difficulty": "medium"
+  },
+  {
+    "id": "fam_008",
+    "question": "Are breastfed children considered family?",
+    "expected_verses": ["4:23", "2:233"],
+    "expected_keywords": ["breastfed", "foster mothers", "sisters", "marriage"],
+    "topic": "family",
+    "difficulty": "hard"
+  },
+  {
+    "id": "fam_009",
+    "question": "How should husbands treat their wives?",
+    "expected_verses": ["4:19"],
+    "expected_keywords": ["wives", "kindness", "live with them", "unjustly"],
+    "topic": "family",
+    "difficulty": "common"
+  },
+  {
+    "id": "fam_010",
+    "question": "What is the rule if a husband dies regarding his wife's waiting period?",
+    "expected_verses": ["2:234"],
+    "expected_keywords": ["dies", "waiting period", "four months", "ten days"],
+    "topic": "family",
+    "difficulty": "hard"
+  },
+  {
+    "id": "eth_001",
+    "question": "What does the Quran say about telling lies?",
+    "expected_verses": ["3:61", "40:28"],
+    "expected_keywords": ["lies", "curse", "liar", "truth"],
+    "topic": "ethics",
+    "difficulty": "common"
+  },
+  {
+    "id": "eth_002",
+    "question": "Is justice mandatory even against ourselves?",
+    "expected_verses": ["4:135", "5:8"],
+    "expected_keywords": ["justice", "equity", "witness", "parents", "enemies"],
+    "topic": "ethics",
+    "difficulty": "common"
+  },
+  {
+    "id": "eth_003",
+    "question": "Should we forgive people who make mistakes?",
+    "expected_verses": ["3:134", "42:40", "42:43"],
+    "expected_keywords": ["forgive", "pardon", "anger", "retribution", "better"],
+    "topic": "ethics",
+    "difficulty": "common"
+  },
+  {
+    "id": "eth_004",
+    "question": "What is the reward for being patient in trials?",
+    "expected_verses": ["2:155", "39:10"],
+    "expected_keywords": ["patience", "sabr", "reward", "trials", "without limit"],
+    "topic": "ethics",
+    "difficulty": "common"
+  },
+  {
+    "id": "eth_005",
+    "question": "Does the Quran forbid arrogance and pride?",
+    "expected_verses": ["17:37", "31:18"],
+    "expected_keywords": ["arrogance", "pride", "insolence", "walk", "earth"],
+    "topic": "ethics",
+    "difficulty": "common"
+  },
+  {
+    "id": "eth_006",
+    "question": "Are we supposed to keep our promises?",
+    "expected_verses": ["5:1", "17:34"],
+    "expected_keywords": ["covenants", "promises", "oaths", "keep"],
+    "topic": "ethics",
+    "difficulty": "medium"
+  },
+  {
+    "id": "eth_007",
+    "question": "What should we do if we hear gossip?",
+    "expected_verses": ["49:6", "49:12"],
+    "expected_keywords": ["gossip", "investigate", "backbite", "suspicion"],
+    "topic": "ethics",
+    "difficulty": "medium"
+  },
+  {
+    "id": "eth_008",
+    "question": "Is spying on other people allowed?",
+    "expected_verses": ["49:12"],
+    "expected_keywords": ["spying", "backbite", "suspicion", "avoid"],
+    "topic": "ethics",
+    "difficulty": "medium"
+  },
+  {
+    "id": "eth_009",
+    "question": "How should we respond to anger?",
+    "expected_verses": ["42:37", "3:134"],
+    "expected_keywords": ["anger", "restrain", "forgive", "mercy"],
+    "topic": "ethics",
+    "difficulty": "common"
+  },
+  {
+    "id": "eth_010",
+    "question": "What is the reward for doing good deeds?",
+    "expected_verses": ["55:60", "99:7"],
+    "expected_keywords": ["good", "reward", "atom's weight", "excel"],
+    "topic": "ethics",
+    "difficulty": "common"
+  },
+  {
+    "id": "foo_001",
+    "question": "Is drinking alcohol haram?",
+    "expected_verses": ["2:219", "5:90", "5:91"],
+    "expected_keywords": ["alcohol", "intoxicants", "wine", "sin", "avoid"],
+    "topic": "food",
+    "difficulty": "common"
+  },
+  {
+    "id": "foo_002",
+    "question": "Can we eat pork if we are starving?",
+    "expected_verses": ["2:173", "5:3", "6:145"],
+    "expected_keywords": ["pork", "swine", "starving", "necessity", "compelled"],
+    "topic": "food",
+    "difficulty": "common"
+  },
+  {
+    "id": "foo_003",
+    "question": "What kinds of meat are forbidden?",
+    "expected_verses": ["5:3"],
+    "expected_keywords": ["forbidden", "dead", "blood", "swine", "carrion"],
+    "topic": "food",
+    "difficulty": "medium"
+  },
+  {
+    "id": "foo_004",
+    "question": "Is seafood allowed to be eaten?",
+    "expected_verses": ["5:96"],
+    "expected_keywords": ["seafood", "sea", "catch", "water", "lawful"],
+    "topic": "food",
+    "difficulty": "common"
+  },
+  {
+    "id": "foo_005",
+    "question": "Can we eat food prepared by Jews and Christians?",
+    "expected_verses": ["5:5"],
+    "expected_keywords": ["people of the book", "food", "lawful", "jews", "christians"],
+    "topic": "food",
+    "difficulty": "medium"
+  },
+  {
+    "id": "foo_006",
+    "question": "What is the ruling on gambling?",
+    "expected_verses": ["2:219", "5:90"],
+    "expected_keywords": ["gambling", "games of chance", "intoxicants", "sin"],
+    "topic": "food",
+    "difficulty": "common"
+  },
+  {
+    "id": "foo_007",
+    "question": "Do we have to say Bismillah before eating meat?",
+    "expected_verses": ["6:118", "6:121"],
+    "expected_keywords": ["name of Allah", "pronounced", "bismillah", "eating"],
+    "topic": "food",
+    "difficulty": "hard"
+  },
+  {
+    "id": "foo_008",
+    "question": "Is dead animal meat allowed?",
+    "expected_verses": ["2:173", "5:3"],
+    "expected_keywords": ["dead animal", "carrion", "blood", "swine", "forbidden"],
+    "topic": "food",
+    "difficulty": "common"
+  },
+  {
+    "id": "foo_009",
+    "question": "Can we eat animal fat?",
+    "expected_verses": ["6:146"],
+    "expected_keywords": ["fat", "jews", "oxen", "sheep", "forbidden"],
+    "topic": "food",
+    "difficulty": "hard"
+  },
+  {
+    "id": "foo_010",
+    "question": "Are all good foods allowed?",
+    "expected_verses": ["5:4", "7:157"],
+    "expected_keywords": ["lawful", "good things", "clean", "permitted"],
+    "topic": "food",
+    "difficulty": "medium"
+  },
+  {
+    "id": "soc_001",
+    "question": "How should we treat our neighbors?",
+    "expected_verses": ["4:36"],
+    "expected_keywords": ["neighbors", "kindness", "treat", "near", "distant"],
+    "topic": "social",
+    "difficulty": "common"
+  },
+  {
+    "id": "soc_002",
+    "question": "Does the Quran promote racism or superiority?",
+    "expected_verses": ["49:13"],
+    "expected_keywords": ["nations", "tribes", "superior", "know one another", "noblest"],
+    "topic": "social",
+    "difficulty": "common"
+  },
+  {
+    "id": "soc_003",
+    "question": "Are we allowed to make peace with enemies?",
+    "expected_verses": ["8:61"],
+    "expected_keywords": ["peace", "incline", "treaty", "allies"],
+    "topic": "social",
+    "difficulty": "medium"
+  },
+  {
+    "id": "soc_004",
+    "question": "How should we speak to other people?",
+    "expected_verses": ["2:83", "17:53"],
+    "expected_keywords": ["speak", "people", "kindly", "best", "words"],
+    "topic": "social",
+    "difficulty": "common"
+  },
+  {
+    "id": "soc_005",
+    "question": "What is the importance of charity in a community?",
+    "expected_verses": ["2:177", "2:215"],
+    "expected_keywords": ["wealth", "relatives", "needy", "traveler", "beggars"],
+    "topic": "social",
+    "difficulty": "common"
+  },
+  {
+    "id": "soc_006",
+    "question": "Does Islam allow forcing people to convert?",
+    "expected_verses": ["2:256", "10:99"],
+    "expected_keywords": ["compulsion", "religion", "force", "convert", "truth"],
+    "topic": "social",
+    "difficulty": "common"
+  },
+  {
+    "id": "soc_007",
+    "question": "How should we treat non-Muslims who are peaceful?",
+    "expected_verses": ["60:8"],
+    "expected_keywords": ["non-muslims", "peaceful", "righteous", "kindness", "justice"],
+    "topic": "social",
+    "difficulty": "medium"
+  },
+  {
+    "id": "soc_008",
+    "question": "Are we supposed to help each other do good things?",
+    "expected_verses": ["5:2"],
+    "expected_keywords": ["cooperate", "righteousness", "piety", "sin", "aggression"],
+    "topic": "social",
+    "difficulty": "medium"
+  },
+  {
+    "id": "soc_009",
+    "question": "What does the Quran say about mockingly laughing at others?",
+    "expected_verses": ["49:11"],
+    "expected_keywords": ["ridicule", "insult", "mock", "offensive names"],
+    "topic": "social",
+    "difficulty": "medium"
+  },
+  {
+    "id": "soc_010",
+    "question": "How should we salute or greet people?",
+    "expected_verses": ["4:86"],
+    "expected_keywords": ["greeting", "saluted", "better", "return"],
+    "topic": "social",
+    "difficulty": "medium"
+  }
+]

@@ -1,0 +1,104 @@
+{
+  "citation_accuracy": 0.6,
+  "total_hallucinations": 0,
+  "faithfulness": null,
+  "answer_relevancy": null,
+  "timestamp": "2026-05-25T17:43:37.478791",
+  "per_question_results": [
+    {
+      "id": "fin_005",
+      "question": "What happens if someone cheats in business measurements?",
+      "expected_verses": [
+        "83:1",
+        "83:2",
+        "83:3"
+      ],
+      "answer": "I cannot find a Quranic verse on this topic",
+      "contexts": [
+        "But if they give by measure or by weight to them, they cause loss.",
+        "Who, when they take a measure from people, take in full.",
+        "That you not transgress within the balance.",
+        "And if they disobey you, then say, \"Indeed, I am disassociated from what you are doing.\"",
+        "And it will be said, \"Invoke your 'partners' \" and they will invoke them; but they will not respond to them, and they will see the punishment. If only they had followed guidance!"
+      ],
+      "citation_accuracy": 0.0,
+      "hallucinated_citations": [],
+      "status": "UNGROUNDED"
+    },
+    {
+      "id": "eth_009",
+      "question": "How should we respond to anger?",
+      "expected_verses": [
+        "42:37",
+        "3:134"
+      ],
+      "answer": "This is an offline mock response for research. Grounded verses: Ash-Shura (42:37), Ali 'Imran (3:134). Explanation details: This verse covers the queried topic of 'ethics'.\n\nFor a ruling specific to your situation, consult a qualified scholar (alim).",
+      "contexts": [
+        "[Saying], \"Eat from the good things with which We have provided you and do not transgress [or oppress others] therein, lest My anger should descend upon you. And he upon whom My anger descends has certainly fallen.\"",
+        "Indeed, those who took the calf [for worship] will obtain anger from their Lord and humiliation in the life of this world, and thus do We recompense the inventors [of falsehood].",
+        "And when My servants ask you, [O Muhammad], concerning Me - indeed I am near. I respond to the invocation of the supplicant when he calls upon Me. So let them respond to Me [by obedience] and believe in Me that they may be [rightly] guided.",
+        "And when the anger subsided in Moses, he took up the tablets; and in their inscription was guidance and mercy for those who are fearful of their Lord.",
+        "The path of those upon whom You have bestowed favor, not of those who have evoked [Your] anger or of those who are astray."
+      ],
+      "citation_accuracy": 1.0,
+      "hallucinated_citations": [],
+      "status": "GROUNDED"
+    },
+    {
+      "id": "fam_010",
+      "question": "What is the rule if a husband dies regarding his wife's waiting period?",
+      "expected_verses": [
+        "2:234"
+      ],
+      "answer": "This is an offline mock response for research. Grounded verses: Al-Baqarah (2:234). Explanation details: This verse covers the queried topic of 'family'.\n\nFor a ruling specific to your situation, consult a qualified scholar (alim).",
+      "contexts": [
+        "Divorced women remain in waiting for three periods, and it is not lawful for them to conceal what Allah has created in their wombs if they believe in Allah and the Last Day. And their husbands have more right to take them back in this [period] if they want reconciliation. And due to the wives is similar to what is expected of them, according to what is reasonable. But the men have a degree over them [in responsibility and authority]. And Allah is Exalted in Might and Wise. Divorce is twice. Then, either keep [her] in an acceptable manner or release [her] with good treatment. And it is not lawful for you to take anything of what you have given them unless both fear that they will not be able to keep [within] the limits of Allah. But if you fear that they will not keep [within] the limits of Allah, then there is no blame upon either of them concerning that by which she ransoms herself. These are the limits of Allah, so do not transgress them. And whoever transgresses the limits of Allah - it is those who are the wrongdoers. And if he has divorced her [for the third time], then she is not lawful to him afterward until [after] she marries a husband other than him. And if the latter husband divorces her [or dies], there is no blame upon the woman and her former husband for returning to each other if they think that they can keep [within] the limits of Allah. These are the limits of Allah, which He makes clear to a people who know. And when you divorce women and they have [nearly] fulfilled their term, either retain them according to acceptable terms or release them according to acceptable terms, and do not keep them, intending harm, to transgress [against them]. And whoever does that has certainly wronged himself. And do not take the verses of Allah in jest. And remember the favor of Allah upon you and what has been revealed to you of the Book and wisdom by which He instructs you. And fear Allah and know that Allah is Knowing of all things. And when you divorce women and they have fulfilled their term, do not prevent them from remarrying their [former] husbands if they agree among themselves on an acceptable basis. That is instructed to whoever of you believes in Allah and the Last Day. That is better for you and purer, and Allah knows and you know not.",
+        "Divorced women remain in waiting for three periods, and it is not lawful for them to conceal what Allah has created in their wombs if they believe in Allah and the Last Day. And their husbands have more right to take them back in this [period] if they want reconciliation. And due to the wives is similar to what is expected of them, according to what is reasonable. But the men have a degree over them [in responsibility and authority]. And Allah is Exalted in Might and Wise. Divorce is twice. Then, either keep [her] in an acceptable manner or release [her] with good treatment. And it is not lawful for you to take anything of what you have given them unless both fear that they will not be able to keep [within] the limits of Allah. But if you fear that they will not keep [within] the limits of Allah, then there is no blame upon either of them concerning that by which she ransoms herself. These are the limits of Allah, so do not transgress them. And whoever transgresses the limits of Allah - it is those who are the wrongdoers. And if he has divorced her [for the third time], then she is not lawful to him afterward until [after] she marries a husband other than him. And if the latter husband divorces her [or dies], there is no blame upon the woman and her former husband for returning to each other if they think that they can keep [within] the limits of Allah. These are the limits of Allah, which He makes clear to a people who know.",
+        "Divorced women remain in waiting for three periods, and it is not lawful for them to conceal what Allah has created in their wombs if they believe in Allah and the Last Day. And their husbands have more right to take them back in this [period] if they want reconciliation. And due to the wives is similar to what is expected of them, according to what is reasonable. But the men have a degree over them [in responsibility and authority]. And Allah is Exalted in Might and Wise.",
+        "O Prophet, when you [Muslims] divorce women, divorce them for [the commencement of] their waiting period and keep count of the waiting period, and fear Allah, your Lord. Do not turn them out of their [husbands'] houses, nor should they [themselves] leave [during that period] unless they are committing a clear immorality. And those are the limits [set by] Allah. And whoever transgresses the limits of Allah has certainly wronged himself. You know not; perhaps Allah will bring about after that a [different] matter.",
+        "And if he has divorced her [for the third time], then she is not lawful to him afterward until [after] she marries a husband other than him. And if the latter husband divorces her [or dies], there is no blame upon the woman and her former husband for returning to each other if they think that they can keep [within] the limits of Allah. These are the limits of Allah, which He makes clear to a people who know."
+      ],
+      "citation_accuracy": 1.0,
+      "hallucinated_citations": [],
+      "status": "GROUNDED"
+    },
+    {
+      "id": "fam_008",
+      "question": "Are breastfed children considered family?",
+      "expected_verses": [
+        "4:23",
+        "2:233"
+      ],
+      "answer": "I cannot find a Quranic verse on this topic",
+      "contexts": [
+        "Mothers may breastfeed their children two complete years for whoever wishes to complete the nursing [period]. Upon the father is the mothers' provision and their clothing according to what is acceptable. No person is charged with more than his capacity. No mother should be harmed through her child, and no father through his child. And upon the [father's] heir is [a duty] like that [of the father]. And if they both desire weaning through mutual consent from both of them and consultation, there is no blame upon either of them. And if you wish to have your children nursed by a substitute, there is no blame upon you as long as you give payment according to what is acceptable. And fear Allah and know that Allah is Seeing of what you do.",
+        "Lodge them [in a section] of where you dwell out of your means and do not harm them in order to oppress them. And if they should be pregnant, then spend on them until they give birth. And if they breastfeed for you, then give them their payment and confer among yourselves in the acceptable way; but if you are in discord, then there may breastfeed for the father another woman.",
+        "Then he considered [again];",
+        "And children present [with him]",
+        "And full-breasted [companions] of equal age"
+      ],
+      "citation_accuracy": 0.0,
+      "hallucinated_citations": [],
+      "status": "UNGROUNDED"
+    },
+    {
+      "id": "eth_010",
+      "question": "What is the reward for doing good deeds?",
+      "expected_verses": [
+        "55:60",
+        "99:7"
+      ],
+      "answer": "This is an offline mock response for research. Grounded verses: Ar-Rahman (55:60), Az-Zalzalah (99:7). Explanation details: This verse covers the queried topic of 'ethics'.\n\nFor a ruling specific to your situation, consult a qualified scholar (alim).",
+      "contexts": [
+        "Wealth and children are [but] adornment of the worldly life. But the enduring good deeds are better to your Lord for reward and better for [one's] hope.",
+        "Indeed, those who believe and do righteous deeds - for them is a reward uninterrupted.",
+        "And Allah increases those who were guided, in guidance, and the enduring good deeds are better to your Lord for reward and better for recourse.",
+        "Indeed, those who have believed and done righteous deeds - indeed, We will not allow to be lost the reward of any who did well in deeds.",
+        "Except for those who believe and do righteous deeds. For them is a reward uninterrupted."
+      ],
+      "citation_accuracy": 1.0,
+      "hallucinated_citations": [],
+      "status": "GROUNDED"
+    }
+  ]
+}

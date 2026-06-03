@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment
+venv/
+.venv/
+
+# Environment Variables (API keys)
+.env
+
+# ChromaDB persistent store
+.chroma/
+
+# BM25 serialized index
+.bm25_index.pkl
+
+# Query expansion cache
+.expand_cache.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Jupyter
+.ipynb_checkpoints/
