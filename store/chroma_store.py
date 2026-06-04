@@ -52,13 +52,16 @@ class QuranChromaStore:
         use_gemini = os.environ.get("USE_GEMINI_EMBEDDINGS", "false").lower() == "true"
         
         # Check if sentence-transformers is available
+        st_available = False
         try:
             from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
             st_available = True
         except ImportError:
-            st_available = False
-            if gemini_key:
-                use_gemini = True  # Auto-fallback to Gemini if local model unavailable
+            pass
+        
+        # Auto-use Gemini if sentence-transformers is not installed
+        if not st_available and gemini_key:
+            use_gemini = True
         
         if use_gemini and gemini_key:
             print("Using Gemini Embedding Function (gemini-embedding-001)...")
@@ -69,6 +72,12 @@ class QuranChromaStore:
             print("Using Local Embedding Function (all-MiniLM-L6-v2)...")
             self.embedding_function = SentenceTransformerEmbeddingFunction(
                 model_name="sentence-transformers/all-MiniLM-L6-v2"
+            )
+        else:
+            raise RuntimeError(
+                "No embedding function available. Either:\n"
+                "  1. Install sentence-transformers: pip install sentence-transformers\n"
+                "  2. Set GEMINI_API_KEY environment variable to use Gemini embeddings"
             )
             
         self.collection_name = collection_name
