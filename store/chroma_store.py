@@ -11,6 +11,8 @@ except ImportError:
     SentenceTransformerEmbeddingFunction = None  # Not available in lightweight deployments
 from chromadb import EmbeddingFunction, Documents, Embeddings
 from dotenv import load_dotenv
+import time
+import random
 
 # Load environment variables
 load_dotenv()
@@ -18,24 +20,91 @@ load_dotenv()
 class GeminiEmbeddingFunction(EmbeddingFunction):
     def __init__(self, api_key: str):
         from google import genai
+
         self.client = genai.Client(api_key=api_key)
-        
+
+        # Retry settings
+        self.max_retries = 8
+        self.base_delay = 2
+        self.max_delay = 60
+
     def __call__(self, input: Documents) -> Embeddings:
-        try:
-            # gemini-embedding-001 supports native batching (one call per list of strings)
-            response = self.client.models.embed_content(
-                model="gemini-embedding-001",
-                contents=input
-            )
-            if hasattr(response, "embeddings"):
-                return [emb.values for emb in response.embeddings]
-            elif isinstance(response, list):
-                return [emb.values for emb in response]
-            else:
-                raise ValueError("Unexpected response structure from Gemini Embedding API")
-        except Exception as e:
-            print(f"Gemini Embedding API call failed: {e}")
-            raise e
+        """
+        Generate embeddings with exponential backoff.
+
+        Retries:
+        - 429 RESOURCE_EXHAUSTED
+        - 500 Internal errors
+        - 502 Bad Gateway
+        - 503 Service Unavailable
+        - 504 Gateway Timeout
+        """
+
+        for attempt in range(self.max_retries):
+            try:
+                response = self.client.models.embed_content(
+                    model="gemini-embedding-001",
+                    contents=input,
+                )
+
+                if hasattr(response, "embeddings"):
+                    return [emb.values for emb in response.embeddings]
+
+                elif isinstance(response, list):
+                    return [emb.values for emb in response]
+
+                else:
+                    raise ValueError(
+                        f"Unexpected Gemini response structure: {type(response)}"
+                    )
+
+            except Exception as e:
+                error_str = str(e)
+
+                retryable = any(
+                    code in error_str
+                    for code in [
+                        "429",
+                        "RESOURCE_EXHAUSTED",
+                        "500",
+                        "502",
+                        "503",
+                        "504",
+                    ]
+                )
+
+                if not retryable:
+                    print(f"Non-retryable Gemini error: {e}")
+                    raise
+
+                if attempt == self.max_retries - 1:
+                    print(
+                        f"Gemini embedding failed after "
+                        f"{self.max_retries} attempts"
+                    )
+                    raise
+
+                # Exponential backoff
+                delay = min(
+                    self.base_delay * (2 ** attempt),
+                    self.max_delay,
+                )
+
+                # Add jitter
+                jitter = random.uniform(0, 1)
+                sleep_time = delay + jitter
+
+                print(
+                    f"[Retry {attempt + 1}/{self.max_retries}] "
+                    f"Gemini rate limit/server error. "
+                    f"Sleeping {sleep_time:.2f}s..."
+                )
+
+                time.sleep(sleep_time)
+
+        raise RuntimeError(
+            "Failed to generate embeddings after all retries."
+        )
 
 class QuranChromaStore:
     def __init__(self, db_path: str = ".chroma", collection_name: str = "quran_verses"):
