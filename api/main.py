@@ -31,15 +31,26 @@ app.add_middleware(
 )
 
 # Initialize global retrieval components
-# Checks if database exists before initializing
 DB_PATH = ".chroma"
-if not os.path.exists(DB_PATH):
-    print(f"Warning: Database path '{DB_PATH}' not found. Please run store/chroma_store.py first.")
-
 try:
+    if not os.path.exists(DB_PATH):
+        print(f"Warning: Database path '{DB_PATH}' not found. Building it now...")
+        import json
+        chunks_path = Path("data/processed/chunks.json")
+        if chunks_path.exists():
+            with open(chunks_path, "r", encoding="utf-8") as f:
+                chunks = json.load(f)
+            temp_store = QuranChromaStore(db_path=DB_PATH)
+            temp_store.upsert_chunks(chunks)
+            print("Database built successfully.")
+        else:
+            print(f"Error: {chunks_path} not found. Cannot build database.")
+            
     hybrid_search = QuranHybridSearch()
     store = QuranChromaStore(db_path=DB_PATH)
 except Exception as e:
+    import traceback
+    traceback.print_exc()
     print(f"Error initializing search components: {e}")
     hybrid_search = None
     store = None

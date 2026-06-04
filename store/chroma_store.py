@@ -52,12 +52,10 @@ class QuranChromaStore:
         use_gemini = os.environ.get("USE_GEMINI_EMBEDDINGS", "false").lower() == "true"
         
         # Check if sentence-transformers is available
-        st_available = False
-        try:
+        import importlib.util
+        st_available = importlib.util.find_spec("sentence_transformers") is not None
+        if st_available:
             from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
-            st_available = True
-        except ImportError:
-            pass
         
         # Auto-use Gemini if sentence-transformers is not installed
         if not st_available and gemini_key:
