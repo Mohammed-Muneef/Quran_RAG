@@ -5,7 +5,10 @@ import sys
 from pathlib import Path
 from typing import Optional, List, Dict, Any
 import chromadb
-from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
+try:
+    from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
+except ImportError:
+    SentenceTransformerEmbeddingFunction = None  # Not available in lightweight deployments
 from chromadb import EmbeddingFunction, Documents, Embeddings
 from dotenv import load_dotenv
 
@@ -39,7 +42,8 @@ class QuranChromaStore:
         """
         Initializes persistent ChromaDB store at db_path and retrieves/creates the collection.
         Defaults to local sentence-transformers 'all-MiniLM-L6-v2' to avoid bulk rate limits,
-        but dynamically supports Gemini gemini-embedding-001 if USE_GEMINI_EMBEDDINGS=true is set.
+        but dynamically supports Gemini gemini-embedding-001 if USE_GEMINI_EMBEDDINGS=true is set
+        or if sentence-transformers is not installed.
         """
         self.db_path = db_path
         self.client = chromadb.PersistentClient(path=db_path)
@@ -47,12 +51,21 @@ class QuranChromaStore:
         gemini_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
         use_gemini = os.environ.get("USE_GEMINI_EMBEDDINGS", "false").lower() == "true"
         
+        # Check if sentence-transformers is available
+        try:
+            from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
+            st_available = True
+        except ImportError:
+            st_available = False
+            if gemini_key:
+                use_gemini = True  # Auto-fallback to Gemini if local model unavailable
+        
         if use_gemini and gemini_key:
             print("Using Gemini Embedding Function (gemini-embedding-001)...")
             self.embedding_function = GeminiEmbeddingFunction(api_key=gemini_key)
             if collection_name == "quran_verses":
                 collection_name = "quran_verses_gemini"
-        else:
+        elif st_available:
             print("Using Local Embedding Function (all-MiniLM-L6-v2)...")
             self.embedding_function = SentenceTransformerEmbeddingFunction(
                 model_name="sentence-transformers/all-MiniLM-L6-v2"
