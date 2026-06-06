@@ -8,7 +8,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir \
     requests tqdm chromadb google-genai fastapi uvicorn \
-    python-dotenv rank-bm25 pyyaml openai cohere && \
+    python-dotenv rank-bm25 pyyaml openai cohere \
+    tokenizers onnxruntime && \
     rm -rf /root/.cache/pip
 
 # Copy application code
@@ -21,6 +22,7 @@ COPY eval/ ./eval/
 COPY api/ ./api/
 COPY data/ ./data/
 COPY .env.example .
+COPY .chroma/ ./.chroma/
 
 # Pre-build BM25 index (lightweight, ~4MB)
 ENV PYTHONPATH=/app

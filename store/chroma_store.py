@@ -5,10 +5,7 @@ import sys
 from pathlib import Path
 from typing import Optional, List, Dict, Any
 import chromadb
-try:
-    from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
-except ImportError:
-    SentenceTransformerEmbeddingFunction = None  # Not available in lightweight deployments
+from chromadb.utils.embedding_functions import ONNXMiniLM_L6_V2
 from chromadb import EmbeddingFunction, Documents, Embeddings
 from dotenv import load_dotenv
 import time
@@ -120,32 +117,15 @@ class QuranChromaStore:
         gemini_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
         use_gemini = os.environ.get("USE_GEMINI_EMBEDDINGS", "false").lower() == "true"
         
-        # Check if sentence-transformers is available
-        import importlib.util
-        st_available = importlib.util.find_spec("sentence_transformers") is not None
-        if st_available:
-            from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
-        
-        # Auto-use Gemini if sentence-transformers is not installed
-        if not st_available and gemini_key:
-            use_gemini = True
-        
         if use_gemini and gemini_key:
             print("Using Gemini Embedding Function (gemini-embedding-001)...")
             self.embedding_function = GeminiEmbeddingFunction(api_key=gemini_key)
             if collection_name == "quran_verses":
                 collection_name = "quran_verses_gemini"
-        elif st_available:
-            print("Using Local Embedding Function (all-MiniLM-L6-v2)...")
-            self.embedding_function = SentenceTransformerEmbeddingFunction(
-                model_name="sentence-transformers/all-MiniLM-L6-v2"
-            )
         else:
-            raise RuntimeError(
-                "No embedding function available. Either:\n"
-                "  1. Install sentence-transformers: pip install sentence-transformers\n"
-                "  2. Set GEMINI_API_KEY environment variable to use Gemini embeddings"
-            )
+            # Use ChromaDB's built-in ONNX MiniLM — no PyTorch, no API calls, ~30MB RAM
+            print("Using Local ONNX Embedding Function (all-MiniLM-L6-v2)...")
+            self.embedding_function = ONNXMiniLM_L6_V2(preferred_providers=['CPUExecutionProvider'])
             
         self.collection_name = collection_name
         self.collection = self.client.get_or_create_collection(

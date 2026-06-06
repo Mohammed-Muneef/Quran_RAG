@@ -5,8 +5,8 @@ venv/
 # Environment secrets
 .env
 
-# Pre-built indexes (rebuilt inside container)
-.chroma/
+# Pre-built indexes
+# .chroma/ (shipped pre-built — do NOT ignore)
 .bm25_index.pkl
 .expand_cache.json
 

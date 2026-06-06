@@ -13,8 +13,8 @@ venv/
 # Environment Variables (API keys)
 .env
 
-# ChromaDB persistent store
-.chroma/
+# ChromaDB persistent store (committed — pre-built locally, shipped to Render)
+# .chroma/
 
 # BM25 serialized index
 .bm25_index.pkl
