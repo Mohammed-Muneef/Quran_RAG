@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 from typing import Dict, Any
+from langfuse import observe
 
 # Target cache path
 CACHE_PATH = Path(".expand_cache.json")
@@ -44,6 +45,7 @@ def save_cache(cache: Dict[str, str]):
     except Exception as e:
         print(f"Warning: Failed to save query expansion cache: {e}")
 
+@observe(as_type="generation")
 def expand_query(query: str) -> str:
     """
     Expands the user query using the Gemini API or OpenAI API depending on available keys.

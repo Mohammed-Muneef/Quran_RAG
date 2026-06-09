@@ -4,6 +4,7 @@ import os
 import re
 import sys
 from typing import List, Dict, Any
+from langfuse import observe
 
 # Lazy-loaded imports for performance
 _cohere_client = None
@@ -32,6 +33,7 @@ def _build_candidate_text(candidate: Dict[str, Any]) -> str:
     return text
 
 
+@observe(as_type="generation")
 def _gemini_rerank(query: str, candidates: List[Dict[str, Any]], top_n: int) -> List[Dict[str, Any]]:
     """
     Uses Gemini to score each candidate's relevance to the query.
@@ -111,6 +113,7 @@ Example: [{{"index": 2, "score": 9.5}}, {{"index": 0, "score": 3.0}}]"""
         return []
 
 
+@observe()
 def rerank_chunks(query: str, candidates: List[Dict[str, Any]], top_n: int = 5) -> List[Dict[str, Any]]:
     """
     Reranks up to 20 candidate chunks using (in priority order):

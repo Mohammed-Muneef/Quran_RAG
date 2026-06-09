@@ -13,3 +13,4 @@ cohere
 ragas
 pyyaml
 openai
+langfuse

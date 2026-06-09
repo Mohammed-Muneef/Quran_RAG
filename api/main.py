@@ -14,6 +14,7 @@ from retrieval.hybrid import QuranHybridSearch
 from retrieval.rerank import rerank_chunks
 from generation.answer import generate_answer
 from store.chroma_store import QuranChromaStore
+from langfuse import observe
 
 # Initialize FastAPI App
 app = FastAPI(
@@ -72,6 +73,7 @@ class AskResponse(BaseModel):
     retrieval_time_ms: int
 
 @app.post("/ask", response_model=AskResponse)
+@observe()
 def ask_question(request: AskRequest):
     """
     RAG QA pipeline:

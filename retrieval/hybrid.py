@@ -8,12 +8,14 @@ from typing import Optional, List, Dict, Any, Tuple
 from retrieval.bm25 import QuranBM25Index
 from retrieval.vector import QuranVectorSearch
 from retrieval.expand import expand_query
+from langfuse import observe
 
 class QuranHybridSearch:
     def __init__(self):
         self.bm25_index = QuranBM25Index()
         self.vector_search = QuranVectorSearch()
 
+    @observe()
     def search(self, query: str, n_results: int = 20, surah_number: Optional[int] = None) -> Tuple[List[Dict[str, Any]], str]:
         """
         Runs query expansion and performs parallel BM25 and Vector search,

@@ -18,7 +18,9 @@ except ImportError:
     OPENAI_AVAILABLE = False
 
 from generation.prompt_loader import PromptLoader
+from langfuse import observe, get_client
 
+@observe(as_type="generation")
 def generate_answer(query: str, context_chunks: List[Dict[str, Any]], version: str = "v2") -> Dict[str, Any]:
     """
     Generates a cited answer for the user query using the retrieved context.
@@ -73,6 +75,24 @@ def generate_answer(query: str, context_chunks: List[Dict[str, Any]], version: s
                 }
             )
             api_response = response.text.strip()
+            
+            # Update Langfuse Context for Gemini
+            try:
+                get_client().update_current_generation(
+                    model="gemini-2.5-flash",
+                    input=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_content}
+                    ],
+                    output=api_response,
+                    usage_details={
+                        "input": response.usage_metadata.prompt_token_count if response.usage_metadata else 0,
+                        "output": response.usage_metadata.candidates_token_count if response.usage_metadata else 0
+                    }
+                )
+            except Exception as e:
+                print(f"Failed to update Langfuse context for Gemini: {e}")
+                
         except Exception as e:
             print(f"Gemini API generation failed: {e}. Trying OpenAI fallback...")
 
@@ -91,6 +111,25 @@ def generate_answer(query: str, context_chunks: List[Dict[str, Any]], version: s
                 response_format={"type": "json_object"} if version == "v2" else None
             )
             api_response = response.choices[0].message.content.strip()
+            
+            # Update Langfuse Context for OpenAI
+            try:
+                get_client().update_current_generation(
+                    model="gpt-4o-mini",
+                    input=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_content}
+                    ],
+                    output=api_response,
+                    usage_details={
+                        "input": response.usage.prompt_tokens if response.usage else 0,
+                        "output": response.usage.completion_tokens if response.usage else 0,
+                        "total": response.usage.total_tokens if response.usage else 0
+                    }
+                )
+            except Exception as e:
+                print(f"Failed to update Langfuse context for OpenAI: {e}")
+                
         except Exception as e:
             print(f"OpenAI API generation failed: {e}")
 
