@@ -1,0 +1,42 @@
+name: RAG Pipeline Evaluation
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run RAG Evaluation Pipeline (CI Gate)
+        env:
+          # Required to run the actual inference
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          # Required to run Ragas metric evaluation (Faithfulness, Answer Relevancy)
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          # Langfuse Telemetry (Optional but good for tracking CI runs)
+          LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
+          LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
+          LANGFUSE_HOST: ${{ secrets.LANGFUSE_HOST }}
+        # The --ci flag forces a build failure (exit 1) if faithfulness or citation accuracy drops below threshold
+        # The --live-ragas flag enables running Ragas library to compute faithfulness using OpenAI
+        run: |
+          PYTHONPATH=. python eval/run_eval.py --ci --live-ragas

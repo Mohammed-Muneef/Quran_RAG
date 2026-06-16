@@ -2,6 +2,10 @@
 import os
 import sys
 import time
+import json
+import requests
+import urllib.parse
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from typing import Optional, List, Dict, Any
 from fastapi import FastAPI, HTTPException, Query
@@ -14,7 +18,7 @@ from retrieval.hybrid import QuranHybridSearch
 from retrieval.rerank import rerank_chunks
 from generation.answer import generate_answer
 from store.chroma_store import QuranChromaStore
-from langfuse import observe
+from langfuse import observe, get_client
 
 # Initialize FastAPI App
 app = FastAPI(
@@ -115,6 +119,8 @@ def ask_question(request: AskRequest):
         # Map output schemas
         # If ungrounded fallback returned, format it cleanly
         if "error" in ans_data or ans_data.get("answer") == "I cannot find a Quranic verse on this topic":
+            get_client().score_current_trace(name="failure", value=0, comment="Ungrounded")
+            get_client().score_current_trace(name="citation_coverage", value=0)
             return AskResponse(
                 answer="I cannot find a Quranic verse on this topic",
                 verses=[],
@@ -135,6 +141,9 @@ def ask_question(request: AskRequest):
         raw_answer = ans_data.get("answer", "")
         clean_summary = raw_answer.split("\n\nFor a ruling")[0].strip()
         
+        get_client().score_current_trace(name="failure", value=0, comment="Success")
+        get_client().score_current_trace(name="citation_coverage", value=1 if len(citation_list) > 0 else 0)
+
         return AskResponse(
             answer=clean_summary,
             verses=citation_list,
@@ -145,6 +154,7 @@ def ask_question(request: AskRequest):
     except Exception as e:
         import traceback
         traceback.print_exc()
+        get_client().score_current_trace(name="failure", value=1, comment=str(e))
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/health")
@@ -156,6 +166,93 @@ def health_check():
         count = store.collection.count()
         return {"status": "ok", "chunks_indexed": count}
     return {"status": "warning", "detail": "Vector store not initialized"}
+
+_METRICS_CACHE = {"data": None, "timestamp": 0}
+
+@app.get("/api/metrics")
+def get_sre_metrics():
+    """
+    Fetches SRE dashboard metrics from Langfuse API v2.
+    Proxies requests securely using server-side keys.
+    Results are cached for 60 seconds to prevent 429 rate limits.
+    """
+    global _METRICS_CACHE
+    import time
+    if time.time() - _METRICS_CACHE["timestamp"] < 60 and _METRICS_CACHE["data"]:
+        return _METRICS_CACHE["data"]
+        
+    pk = os.environ.get("LANGFUSE_PUBLIC_KEY")
+    sk = os.environ.get("LANGFUSE_SECRET_KEY")
+    host = os.environ.get("LANGFUSE_HOST", "https://us.cloud.langfuse.com")
+    
+    if not pk or not sk:
+        raise HTTPException(status_code=500, detail="Langfuse keys not configured.")
+        
+    auth = (pk, sk)
+    now = datetime.now(timezone.utc)
+    week_ago = now - timedelta(days=7)
+    
+    def fetch_metric(query_dict):
+        url = f"{host}/api/public/v2/metrics?query={urllib.parse.quote(json.dumps(query_dict))}"
+        resp = requests.get(url, auth=auth)
+        if resp.status_code == 200 and resp.json().get("data"):
+            return resp.json()["data"][0]
+        return {}
+        
+    # 1. Latency & Cost
+    obs_query = {
+        "view": "observations",
+        "fromTimestamp": week_ago.isoformat(),
+        "toTimestamp": now.isoformat(),
+        "metrics": [
+            { "measure": "latency", "aggregation": "p50" },
+            { "measure": "latency", "aggregation": "p95" },
+            { "measure": "totalCost", "aggregation": "sum" }
+        ]
+    }
+    obs_data = fetch_metric(obs_query)
+    
+    # 2. Citation Coverage Score
+    cov_query = {
+        "view": "scores-numeric",
+        "fromTimestamp": week_ago.isoformat(),
+        "toTimestamp": now.isoformat(),
+        "metrics": [
+            { "measure": "value", "aggregation": "avg" }
+        ],
+        "filters": [
+            { "type": "string", "column": "name", "operator": "=", "value": "citation_coverage" }
+        ]
+    }
+    cov_data = fetch_metric(cov_query)
+    
+    # 3. Failure Score
+    fail_query = {
+        "view": "scores-numeric",
+        "fromTimestamp": week_ago.isoformat(),
+        "toTimestamp": now.isoformat(),
+        "metrics": [
+            { "measure": "value", "aggregation": "avg" }
+        ],
+        "filters": [
+            { "type": "string", "column": "name", "operator": "=", "value": "failure" }
+        ]
+    }
+    fail_data = fetch_metric(fail_query)
+    
+    result = {
+        "p50_latency": obs_data.get("p50_latency", 0),
+        "p95_latency": obs_data.get("p95_latency", 0),
+        "total_cost": obs_data.get("sum_totalCost", 0),
+        "citation_coverage": cov_data.get("avg_value", 0),
+        "failure_rate": fail_data.get("avg_value", 0)
+    }
+    
+    # Save to cache
+    _METRICS_CACHE["data"] = result
+    _METRICS_CACHE["timestamp"] = time.time()
+    
+    return result
 
 # Mount the static files folder for the HTML UI page
 # Checks if the static directory exists first

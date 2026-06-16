@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran RAG | SRE Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-glow: rgba(56, 189, 248, 0.2);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #38bdf8, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .metric-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        /* Staggered animation */
+        .metric-card:nth-child(1) { animation-delay: 0.1s; }
+        .metric-card:nth-child(2) { animation-delay: 0.2s; }
+        .metric-card:nth-child(3) { animation-delay: 0.3s; }
+        .metric-card:nth-child(4) { animation-delay: 0.4s; }
+        .metric-card:nth-child(5) { animation-delay: 0.5s; }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #38bdf8, #8b5cf6);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px var(--accent-glow);
+        }
+
+        .metric-card:hover::before {
+            opacity: 1;
+        }
+
+        .metric-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .metric-value {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: baseline;
+            gap: 0.25rem;
+        }
+
+        .metric-unit {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .skeleton {
+            width: 60%;
+            height: 3.5rem;
+            background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+            background-size: 200% 100%;
+            border-radius: 8px;
+            animation: pulse 1.5s infinite linear;
+        }
+
+        .actions {
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-weight: 500;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.02);
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .good-val { color: #10b981; }
+        .warn-val { color: #f59e0b; }
+        .err-val { color: #ef4444; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>System Reliability</h1>
+        <p>Live metrics from the Langfuse Observability Pipeline (Last 7 Days)</p>
+    </header>
+
+    <div class="dashboard-grid">
+        <div class="metric-card">
+            <div class="metric-title">P50 Latency</div>
+            <div class="metric-value" id="p50">
+                <div class="skeleton"></div>
+            </div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-title">P95 Latency</div>
+            <div class="metric-value" id="p95">
+                <div class="skeleton"></div>
+            </div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-title">Total Cost</div>
+            <div class="metric-value" id="cost">
+                <div class="skeleton"></div>
+            </div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-title">Citation Coverage</div>
+            <div class="metric-value" id="coverage">
+                <div class="skeleton"></div>
+            </div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-title">Failure Rate</div>
+            <div class="metric-value" id="failure">
+                <div class="skeleton"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="actions">
+        <a href="/" class="btn">← Back to Search</a>
+    </div>
+
+    <script>
+        async function fetchMetrics() {
+            try {
+                const res = await fetch('/api/metrics');
+                if (!res.ok) throw new Error("API error");
+                
+                const data = await res.json();
+
+                // Format values
+                const p50_sec = (data.p50_latency || 0).toFixed(2);
+                const p95_sec = (data.p95_latency || 0).toFixed(2);
+                const cost = (data.total_cost || 0).toFixed(4);
+                
+                // avg_value ranges from 0 to 1, representing percentage
+                const coverage_pct = ((data.citation_coverage || 0) * 100).toFixed(1);
+                const failure_pct = ((data.failure_rate || 0) * 100).toFixed(1);
+
+                document.getElementById('p50').innerHTML = `${p50_sec} <span class="metric-unit">s</span>`;
+                
+                // Color code p95 latency
+                let p95Class = '';
+                if (p95_sec < 10) p95Class = 'good-val';
+                else if (p95_sec < 20) p95Class = 'warn-val';
+                else p95Class = 'err-val';
+                document.getElementById('p95').innerHTML = `<span class="${p95Class}">${p95_sec}</span> <span class="metric-unit">s</span>`;
+
+                document.getElementById('cost').innerHTML = `<span class="metric-unit">$</span>${cost}`;
+
+                // Color code coverage
+                let covClass = coverage_pct > 90 ? 'good-val' : (coverage_pct > 70 ? 'warn-val' : 'err-val');
+                document.getElementById('coverage').innerHTML = `<span class="${covClass}">${coverage_pct}</span> <span class="metric-unit">%</span>`;
+
+                // Color code failure
+                let failClass = failure_pct < 5 ? 'good-val' : (failure_pct < 10 ? 'warn-val' : 'err-val');
+                document.getElementById('failure').innerHTML = `<span class="${failClass}">${failure_pct}</span> <span class="metric-unit">%</span>`;
+
+            } catch (e) {
+                console.error("Failed to load metrics", e);
+                const errHtml = `<span style="font-size: 1.5rem; color: var(--text-muted);">Unavailable</span>`;
+                ['p50', 'p95', 'cost', 'coverage', 'failure'].forEach(id => {
+                    document.getElementById(id).innerHTML = errHtml;
+                });
+            }
+        }
+
+        // Initialize
+        fetchMetrics();
+        // Refresh every 60 seconds
+        setInterval(fetchMetrics, 60000);
+    </script>
+</body>
+</html>

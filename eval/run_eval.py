@@ -16,7 +16,7 @@ from eval.citation_metric import calculate_citation_accuracy, check_for_hallucin
 GOLDEN_DATASET_PATH = Path("eval/golden_dataset.json")
 RESULTS_OUTPUT_PATH = Path("eval/results.json")
 
-def run_evaluation(sample_size: Optional[int] = None, live_ragas: bool = False):
+def run_evaluation(sample_size: Optional[int] = None, live_ragas: bool = False, run_in_ci: bool = False):
     if not GOLDEN_DATASET_PATH.exists():
         print(f"Error: Golden dataset not found at {GOLDEN_DATASET_PATH}. Run Task 3.1 first.")
         sys.exit(1)
@@ -46,10 +46,10 @@ def run_evaluation(sample_size: Optional[int] = None, live_ragas: bool = False):
         print(f"[{idx}/{len(dataset)}] ID: {qid} | Question: '{q}'")
         
         # 1. Expand query & Hybrid Search (Vector + BM25) to get top 20 candidates
-        candidates = hybrid_search.search(q, n_results=20)
+        candidates, expanded_query = hybrid_search.search(q, n_results=20)
         
         # 2. Cross-encoder Rerank to top 5
-        top_5 = rerank_chunks(q, candidates, top_n=5)
+        top_5 = rerank_chunks(expanded_query, candidates, top_n=5)
         
         # 3. Generate cited answer (using v2 structured JSON schema)
         ans_data = generate_answer(q, top_5, version="v2")
@@ -174,14 +174,14 @@ def run_evaluation(sample_size: Optional[int] = None, live_ragas: bool = False):
     is_live_run = (os.environ.get("GEMINI_API_KEY") is not None) or (os.environ.get("OPENAI_API_KEY") is not None)
     
     if mean_cit_acc < 0.80:
-        if is_live_run:
+        if is_live_run and not run_in_ci:
             print(f"⚠ Quality Gate Notice: Mean Citation Accuracy {mean_cit_acc:.4f} < 0.80 (Non-blocking warning in live LLM mode)")
         else:
             print(f"❌ Quality Gate Failed: Mean Citation Accuracy {mean_cit_acc:.4f} < 0.80")
             quality_failed = True
         
     if run_ragas and ragas_scores.get("faithfulness", 1.0) < 0.85:
-        if is_live_run:
+        if is_live_run and not run_in_ci:
             print(f"⚠ Quality Gate Notice: Ragas Faithfulness {ragas_scores['faithfulness']:.4f} < 0.85 (Non-blocking warning in live LLM mode)")
         else:
             print(f"❌ Quality Gate Failed: Ragas Faithfulness {ragas_scores['faithfulness']:.4f} < 0.85")
@@ -197,6 +197,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Quranic RAG Pipeline Evaluator")
     parser.add_argument("--sample", type=int, default=None, help="Number of random Q&A pairs to sample (default: all)")
     parser.add_argument("--live-ragas", action="store_true", help="Run Ragas library metrics (requires OpenAI API key)")
+    parser.add_argument("--ci", action="store_true", help="Run in CI mode (Strictly enforces quality gates and fails build)")
     args = parser.parse_args()
     
-    run_evaluation(sample_size=args.sample, live_ragas=args.live_ragas)
+    run_evaluation(sample_size=args.sample, live_ragas=args.live_ragas, run_in_ci=args.ci)
