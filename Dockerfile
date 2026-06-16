@@ -9,7 +9,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir \
     requests tqdm chromadb google-genai fastapi uvicorn \
     python-dotenv rank-bm25 pyyaml openai cohere \
-    tokenizers onnxruntime && \
+    tokenizers onnxruntime langfuse && \
     rm -rf /root/.cache/pip
 
 # Copy application code
